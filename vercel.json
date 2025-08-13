@@ -4,10 +4,7 @@
     {
       "src": "api/index.js",
       "use": "@vercel/node",
-      "config": {
-        "maxLambdaSize": "50mb",   // required for Chromium
-        "runtime": "nodejs18.x"    // Node 18+ for playwright-aws-lambda
-      }
+      "config": { "maxLambdaSize": "50mb" }
     }
   ],
   "routes": [

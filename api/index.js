@@ -1,4 +1,4 @@
-import { chromium } from "playwright-core";
+import chromium from "playwright-aws-lambda";
 
 export default async function handler(req, res) {
   // Extract prompt from URL path `/generate-image/prompt=xxx`
@@ -14,9 +14,10 @@ export default async function handler(req, res) {
   let imageUrl = null;
 
   try {
-    const browser = await chromium.launch({
-      args: ["--no-sandbox", "--disable-setuid-sandbox"],
-      headless: true
+    const browser = await chromium.launchChromium({
+      args: chromium.args,
+      executablePath: await chromium.executablePath(),
+      headless: chromium.headless
     });
 
     const context = await browser.newContext();

@@ -1,7 +1,10 @@
 import { chromium } from "playwright-core";
 
 export default async function handler(req, res) {
-  const prompt = req.query.prompt;
+  // Extract prompt from URL path `/generate-image/prompt=xxx`
+  const path = req.url || "";
+  const match = path.match(/\/generate-image\/prompt=(.+)/);
+  const prompt = match ? decodeURIComponent(match[1]) : null;
 
   if (!prompt) {
     return res.status(400).json({ success: false, error: "Prompt is required" });
@@ -11,7 +14,6 @@ export default async function handler(req, res) {
   let imageUrl = null;
 
   try {
-    // Launch browser in Vercel
     const browser = await chromium.launch({
       args: ["--no-sandbox", "--disable-setuid-sandbox"],
       headless: true
@@ -41,8 +43,6 @@ export default async function handler(req, res) {
     });
 
     await page.click("button:has-text('Generate')");
-
-    // Wait for image API call
     await page.waitForResponse(
       (r) =>
         r.url().includes("UploadByFileNew") &&

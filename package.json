@@ -1,0 +1,8 @@
+{
+  "name": "image-generate-api",
+  "version": "1.0.0",
+  "type": "module",
+  "dependencies": {
+    "playwright-core": "^1.46.0"
+  }
+}
